@@ -28,9 +28,12 @@ def select_all(tablename, where=""):
     """Get all items from the `tablename` table."""
     if where:
         where = f"WHERE {where}"
+
+    # + (space) was not handled before, which will cause an error. Replacing '+' to ' '
+    where = where.replace("+"," ")
+
     with _get_conn() as conn:
         return conn.execute(f"SELECT * FROM {tablename} {where}")
-
 
 def select_by_id(tablename, item_id):
     """Select the item by id."""

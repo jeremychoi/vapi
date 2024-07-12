@@ -102,10 +102,11 @@ class PetsById(MethodView):
 @pets_blueprint.route("/name/<string:pet_name>")
 class PetsByName(MethodView):
     @staticmethod
-    @pets_blueprint.response(200, PetResponseSchema)
+    #@pets_blueprint.response(200, PetResponseSchema)
+    @pets_blueprint.response(200, PetResponseSchema(many=True))
     def get(pet_name):
         """Gets pet by name."""
         item = list(db.select_all(TABLE_NAME, where=f"name='{pet_name}' COLLATE NOCASE"))
         if item:
-            return item[0]
+            return item
         return {}
